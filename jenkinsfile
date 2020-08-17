@@ -1,0 +1,12 @@
+node {
+  stage 'Checkout'
+  git 'ssh://git@github.com/gkrishna9790/docker-pipeline-demo.git'
+  stage 'Docker build'
+  docker.build('demo')
+ 
+  stage 'Docker push'
+  docker.withRegistry('https://464045059055.dkr.ecr.us-east-1.amazonaws.com/test-jenkins-container', 'ecr:us-east-1:demo-ecr-credentials')
+  {
+    docker.image('test-jenkins-container').push('latest')
+  }
+}
